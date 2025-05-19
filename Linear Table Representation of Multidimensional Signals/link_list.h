@@ -12,7 +12,7 @@ typedef struct Link {
 } Link;
 
 // 创建链表
-void CreateData(struct Link* head);
+void CreateData(Link* head);
 
 // 展示链表
 void showData(Link* head);
@@ -27,16 +27,16 @@ void removeNode(Link* head, int position);
 void LocateData(Link* head, int i);
 
 // 均值滤波
-struct Link* aven_filter(struct Link* head, int filter_constant);
+Link* aven_filter(Link* head, int filter_constant);
 
 // 信号上采样
-struct Link* sampling(struct Link* head);
+Link* sampling(Link* head);
 
 // 保存文件
-void SaveData(struct Link* head, const char* filename);
+void SaveData(Link* head, const char* filename);
 
 // 读取文件数据到链表
-void ReadData(struct Link* head, const char* filename);
+void ReadData(Link* head, const char* filename);
 
 // 界面交互
 void Initwork();

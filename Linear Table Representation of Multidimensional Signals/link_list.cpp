@@ -3,7 +3,6 @@
 #include <string.h>
 #include <iostream>
 
-
 // 定义结构体
 typedef struct Link{
     float data[3];
@@ -12,9 +11,9 @@ typedef struct Link{
 
 // 创建链表
 void CreateData(struct Link* head){
-
     if (!head){
         printf("无效表头\n");
+        return;
     }
 
     int n;
@@ -23,6 +22,7 @@ void CreateData(struct Link* head){
 
     if (n <= 0){
         printf("输入的链表有错，请仔细检查\n");
+        return;
     } 
 
     printf("请输入数据（data1, data2,data3）类似这种格式\n");
@@ -31,39 +31,36 @@ void CreateData(struct Link* head){
 
     for(int i = 0; i < n; i++){
         //malloc动态分布
-
         Link* Newnode = (Link*)malloc(sizeof(Link));
         if(!Newnode){
             printf("创建失败");
+            return;
         }
 
         scanf("%f,%f,%f", &Newnode->data[0], &Newnode->data[1], &Newnode->data[2]);
         Newnode->next = NULL;
 
         // 移动尾指针
-
         tail->next = Newnode;
         tail = Newnode;
     }
-
 }
 
 // 展示链表
 void showData(Link* head){
     struct Link* temp;
     temp = head->next;// 跳过空的首节点
-        while (temp){
-            printf("%f, %f, %f\n", temp->data[0], temp->data[1], temp->data[2]);
-            temp = temp->next;
-        }
-        
+    while (temp){
+        printf("%f, %f, %f\n", temp->data[0], temp->data[1], temp->data[2]);
+        temp = temp->next;
+    }
 }
 
 // 链表的插入
 void ListInsert(Link* head, int index){
-
     if (!head){
         printf("无效表头\n");
+        return;
     }
 
     struct Link* current = head;
@@ -80,16 +77,17 @@ void ListInsert(Link* head, int index){
     }
 
     struct Link* Newnode = (struct Link*)malloc(sizeof(struct Link));
-        if(!Newnode){
-            printf("创建失败");
-        }
+    if(!Newnode){
+        printf("创建失败");
+        return;
+    }
 
-        printf("请输入要插入的数据：\n");
-        scanf("%f,%f,%f", &Newnode->data[0], &Newnode->data[1], &Newnode->data[2]);
-        
-        //插入操作
-        Newnode->next = current->next;
-        current->next = Newnode;
+    printf("请输入要插入的数据：\n");
+    scanf("%f,%f,%f", &Newnode->data[0], &Newnode->data[1], &Newnode->data[2]);
+    
+    //插入操作
+    Newnode->next = current->next;
+    current->next = Newnode;
 }
 
 // 链表的删除
@@ -115,7 +113,6 @@ void removeNode(Link* head, int position){
     Delete = current->next;
     current->next = Delete->next;
     free(Delete); // 释放内存；
-
 }
 
 // 链表的取值
@@ -135,7 +132,7 @@ void LocateData(Link* head, int i){
     }
 
     //如果没有这个位置
-    while (!current){
+    if (!current){
         printf("没有找到这个位置的元素。\n");
         return;
     }
@@ -162,6 +159,10 @@ struct Link* aven_filter(struct Link* head, int filter_constant) {
     while (current != NULL)
     {
         struct Link* newNode = (struct Link*)malloc(sizeof(struct Link));
+        if (!newNode) {
+            printf("内存分配失败\n");
+            return newList;
+        }
 
         if (current == head->next) 
         {
@@ -208,6 +209,10 @@ struct Link* sampling(struct Link* head) {
     
     while (p2 != NULL) {
         p3 = (struct Link*)malloc(sizeof(struct Link));
+        if (!p3) {
+            printf("内存分配失败\n");
+            return head;
+        }
         p3->data[0] = (p1->data[0] + p2->data[0]) / 2;
         p3->data[1] = (p1->data[1] + p2->data[1]) / 2;
         p3->data[2] = (p1->data[2] + p2->data[2]) / 2;
@@ -222,7 +227,7 @@ struct Link* sampling(struct Link* head) {
 
 // 保存文件
 void SaveData(struct Link* head, const char* filename){
-        if (!head || !filename) {
+    if (!head || !filename) {
         fprintf(stderr, "无效输入：head 或文件名为空。\n");
         return;
     }
